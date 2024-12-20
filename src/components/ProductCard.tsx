@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => {
         style={styles.card}
     >
         <ShimmerPlaceholder 
-            visible={!isLoading} 
+            visible={!isLoading}
             style={styles.image}
         >
         <Image

@@ -6,6 +6,8 @@ import PhoneNavigator from './PhoneNavigator';
 import TabletNavigator from './TabletNavigator';
 import { Text } from 'react-native-paper';
 
+Icon.loadFont();
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -26,7 +28,7 @@ const TabNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => (
             <Icon
-              name={focused ? 'heart' : 'heart'}
+              name={focused ? 'home' : 'home-outline'}
               size={size}
               color={color}
             />

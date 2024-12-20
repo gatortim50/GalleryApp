@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { Product, Review } from '../state/types';
 import { PhoneStackParamList } from '../navigation/PhoneNavigator';
 import FastImage from 'react-native-fast-image';
+import { useGlobalContext } from '../state/GlobalContext';
+import { Review } from '../state/types';
 
-type ProductDetailScreenRouteProp = RouteProp<PhoneStackParamList, 'ProductDetail'>;
+type ProductDetailScreenRouteProp = RouteProp<PhoneStackParamList, 'ProductDetail'>
 
-type ProductDetailScreenProps = { product?: Product };
-
-const ProductDetailScreen: React.FC<ProductDetailScreenProps> = (props) => {
+const ProductDetailScreen: React.FC = () => {
+  const { selectedProduct } = useGlobalContext();
   const route = useRoute<ProductDetailScreenRouteProp>();
-  const product = props.product || route.params.product;
+  const product = selectedProduct || route.params.product;
 
   const lastImage = product.images[product.images.length - 1];
 
@@ -26,9 +26,9 @@ const ProductDetailScreen: React.FC<ProductDetailScreenProps> = (props) => {
 
       {/* Product Details */}
       <View style={styles.section}>
-        <Text style={styles.title}>{product.title}</Text>
-        <Text style={styles.description}>{product.description}</Text>
-      </View>
+      <Text style={styles.title}>{product.title}</Text>
+      <Text style={styles.description}>{product.description}</Text>
+    </View>
 
       {/* Price and Availability */}
       <View style={styles.section}>

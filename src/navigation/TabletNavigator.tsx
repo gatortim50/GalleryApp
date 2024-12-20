@@ -1,22 +1,21 @@
-// src/navigation/TabletNavigator.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import ProductListScreen from '../screens/ProductListScreen';
 import ProductDetailScreen from '../screens/ProductDetailScreen';
-import { Product } from '../state/types';
 import { Text } from 'react-native-paper';
+import { useGlobalContext } from '../state/GlobalContext';
 
 const TabletNavigator = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
+  const {selectedProduct} = useGlobalContext()
+  
   return (
     <View style={styles.container}>
       <View style={styles.master}>
-        <ProductListScreen onSelectProduct={setSelectedProduct} />
+        <ProductListScreen />
       </View>
       <View style={styles.detail}>
         {selectedProduct ? (
-          <ProductDetailScreen product={selectedProduct} />
+          <ProductDetailScreen />
         ) : (
           <Text>Select a product to view details</Text>
         )}
