@@ -12,8 +12,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.card}>
-      <ShimmerPlaceholder visible={!isLoading} style={styles.image}>
+    <TouchableOpacity 
+        onPress={onPress} 
+        style={styles.card}
+    >
+        <ShimmerPlaceholder 
+            visible={!isLoading} 
+            style={styles.image}
+        >
         <Image
           source={{ uri: product.thumbnail }}
           style={styles.image}

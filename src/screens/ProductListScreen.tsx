@@ -1,7 +1,7 @@
 // src/screens/ProductListScreen.tsx
-import React from 'react';
-import { View, Text, Button, FlatList, RefreshControl } from 'react-native';
-import { useQuery } from 'react-query';
+import React, { useState } from 'react';
+import { View, Text, FlatList, RefreshControl, StyleSheet } from 'react-native';
+import { useInfiniteQuery } from 'react-query';
 import { fetchProducts } from '../api/fetchProducts';
 import ProductCard from '../components/ProductCard';
 import LoadingSkeleton from '../components/LoadingSkeleton';
@@ -13,13 +13,32 @@ import { Product } from '../state/types';
 type ProductListScreenNavigationProp = StackNavigationProp<PhoneStackParamList, 'Products'>;
 
 type ProductListScreenProps = {
-    onSelectProduct?: (product: Product) => void;
-}
+  onSelectProduct?: (product: Product) => void;
+};
 
 const ProductListScreen: React.FC<ProductListScreenProps> = ({ onSelectProduct }) => {
   const navigation = useNavigation<ProductListScreenNavigationProp>();
+  const [refreshing, setRefreshing] = useState(false);
 
-  const { data: products, isLoading, isError, refetch } = useQuery('products', fetchProducts);
+  // Infinite Query for Pagination
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery(
+    'products',
+    ({ pageParam = 0 }) => fetchProducts(10, pageParam),
+    {
+      getNextPageParam: (lastPage, allPages) =>
+        lastPage.length ? allPages.length * 10 : undefined,
+    }
+  );
+
+  // Flatten all pages of data into a single array
+  const products = data?.pages.flat() || [];
 
   if (isLoading) {
     return <LoadingSkeleton />;
@@ -27,9 +46,22 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ onSelectProduct }
 
   if (isError) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.centered}>
         <Text>Error loading products. Please try again.</Text>
-        <Button title="Retry" onPress={() => refetch()} />
+        <Text
+          style={styles.retryText}
+          onPress={() => refetch()}
+        >
+          Retry
+        </Text>
+      </View>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No products available.</Text>
       </View>
     );
   }
@@ -43,16 +75,34 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ onSelectProduct }
           product={item}
           onPress={() => {
             if (onSelectProduct) {
-                onSelectProduct(item);
+              onSelectProduct(item);
             } else {
-                navigation.navigate('ProductDetail', { product: item });
+              navigation.navigate('ProductDetail', { product: item });
             }
           }}
         />
       )}
-      refreshControl={<RefreshControl refreshing={isLoading} onRefresh={refetch} />}
+      onEndReached={() => {
+        if (hasNextPage) fetchNextPage();
+      }}
+      onEndReachedThreshold={0.5}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={async () => {
+            setRefreshing(true);
+            await refetch();
+            setRefreshing(false);
+          }}
+        />
+      }
     />
   );
 };
+
+const styles = StyleSheet.create({
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  retryText: { color: '#007bff', marginTop: 10, textDecorationLine: 'underline' },
+});
 
 export default ProductListScreen;
