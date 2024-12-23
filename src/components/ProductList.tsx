@@ -1,4 +1,3 @@
-// src/components/ProductList.tsx
 import React from 'react';
 import { FlatList, StyleSheet, FlatListProps } from 'react-native';
 import { Product } from '../state/types';
@@ -20,7 +19,7 @@ const ProductList: React.FC<ProductListProps> = ({ products, renderItem, refresh
 );
 
 const styles = StyleSheet.create({
-  list: { flex: 1 },
+  list: { flex: 1 }
 });
 
 export default ProductList;

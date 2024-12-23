@@ -32,7 +32,7 @@ const TabNavigator = () => {
               size={size}
               color={color}
             />
-          ),
+          )
         }}
       />
 

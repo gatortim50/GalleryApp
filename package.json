@@ -40,6 +40,7 @@
     "@react-native/typescript-config": "0.76.5",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.9.0",
+    "@tsconfig/react-native": "^3.0.5",
     "@types/jest": "^29.5.14",
     "@types/react": "^18.2.6",
     "@types/react-native-vector-icons": "^6.4.18",
