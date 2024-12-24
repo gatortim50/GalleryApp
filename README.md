@@ -160,14 +160,14 @@ product-gallery-app/
 ## Additional Notes
 
 1. **Public Repository**: You can find the source code on GitHub:
-   [https://github.com/your-username/product-gallery-app](https://github.com/gatortim50/GalleryApp/).
+   [https://github.com/gatortim50/product-gallery-app](https://github.com/gatortim50/GalleryApp/).
 2. **Feedback**: Feel free to open an issue or submit a pull request for suggestions or improvements.
 
 --- 
 
 ## Contact
 
-For any questions or issues, contact me via [your-email@example.com](mailto:timthony.mckee@gmail.com).
+For any questions or issues, contact me via [timthony.mckee@gmail.com](mailto:timthony.mckee@gmail.com).
 
 --- 
 
